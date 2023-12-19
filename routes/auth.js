@@ -67,10 +67,9 @@ router.post("/login", async (req, res, next) => {
 router.post("/survey", authenticateToken, async (req, res, next) => {
   try {
     const userId = req.user.userId;
-
     const surveyData = { ...req.body, userId: userId };
-    const survey = new Survey(surveyData);
 
+    const survey = new Survey(surveyData);
     const savedSurvey = await survey.save();
 
     res.status(201).json({ message: "Survey saved successfully", survey: savedSurvey });
@@ -78,6 +77,7 @@ router.post("/survey", authenticateToken, async (req, res, next) => {
     next(error);
   }
 });
+
 
 function authenticateToken(req, res, next) {
   const token = req.headers['authorization'];
@@ -94,6 +94,28 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
+
+router.get("/get-survey", authenticateToken, async (req, res, next) => {
+  try {
+    const surveyData = await Survey.find();
+
+    res.status(200).json({ surveys: surveyData });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/get-survey/:userId", authenticateToken, async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    const surveyData = await Survey.find({ userId: userId });
+
+    res.status(200).json({ surveys: surveyData });
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 
 

@@ -2,209 +2,225 @@ const mongoose = require("mongoose");
 
 const surveySchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     district: {
       type: String,
-      required: [true, "Please enter a district"],
+      required: [true, "Please select a District"],
       trim: true,
     },
-    constituency: {
+    constituencyName: {
       type: String,
-      required: [true, "Please enter a constituency"],
+      required: [true, "Please select a Constituency"],
       trim: true,
     },
-    booth: {
+    constituencyNumber: {
       type: String,
-      required: [true, "Please enter a booth"],
+      required: [true, "Please select a Constituency"],
       trim: true,
     },
-    locality: {
+    boothName: {
       type: String,
-      required: [true, "Please enter a locality"],
-      trim: true,
-    },
-    nagarPanchayat: {
-      type: String,
-      trim: true,
-    },
-    wardNo: {
-      type: String,
-      trim: true,
-    },
-    wardName: {
-      type: String,
-      trim: true,
-    },
-    corporatorName: {
-      type: String,
-      trim: true,
-    },
-    corporatorContact: {
-      type: String,
-      trim: true,
-    },
-    runnerUpCorporator: {
-      type: String,
-      trim: true,
-    },
-    runnerUpCorporatorContact: {
-      type: String,
-      trim: true,
-    },
-    taluka: {
-      type: String,
-      trim: true,
-    },
-    zilaParishadGatt: {
-      type: String,
-      trim: true,
-    },
-    panchayatSamitiGann: {
-      type: String,
-      trim: true,
-    },
-    village: {
-      type: String,
-      trim: true,
-    },
-    sarpanch: {
-      type: String,
-      trim: true,
-    },
-    sarpanchContact: {
-      type: String,
-      trim: true,
-    },
-    runnerUpSarpanch: {
-      type: String,
-      trim: true,
-    },
-    runnerUpSarpanchContact: {
-      type: String,
+      required: [true, "Please select a Booth"],
       trim: true,
     },
     boothNumber: {
       type: String,
+      required: [true, "Please select a Booth"],
       trim: true,
     },
-    pollingStationName: {
+    address: {
+      type: String,
+      required: [true, "Please select an Address"],
+      trim: true,
+    },
+    partyName: {
+      type: String,
+      required: [true, "Please select a Party Name"],
+      trim: true,
+    },
+    pramukhName: {
       type: String,
       trim: true,
     },
-    shivsenaBoothPramukhName: {
+    contact: {
       type: String,
       trim: true,
     },
-    shivsenaBoothPramukhContact: {
-      type: String,
-      trim: true,
-    },
-    shsBoothPramukhPhoto: {
+    photo: {
       type: String,
     },
-    bjpBoothPramukhContact: {
-      type: String,
-      trim: true,
-    },
-    ubtBoothPramukhName: {
-      type: String,
-      trim: true,
-    },
-    ubtBoothPramukhContact: {
-      type: String,
-      trim: true,
-    },
-    incBoothPramukhName: {
-      type: String,
-      trim: true,
-    },
-    incBoothPramukhContact: {
-      type: String,
-      trim: true,
-    },
-    ncpApBoothPramukhName: {
-      type: String,
-      trim: true,
-    },
-    ncpApBoothPramukhContact: {
-      type: String,
-      trim: true,
-    },
-    ncpSpBoothPramukhName: {
-      type: String,
-      trim: true,
-    },
-    ncpSpBoothPramukhContact: {
-      type: String,
-      trim: true,
-    },
-    mnsBoothPramukhName: {
-      type: String,
-      trim: true,
-    },
-    mnsBoothPramukhContact: {
-      type: String,
-      trim: true,
-    },
-    otherPartyName: {
-      type: String,
-      trim: true,
-    },
-    otherPartyBoothPramukhName: {
-      type: String,
-      trim: true,
-    },
-    otherPartyBoothPramukhContact: {
-      type: String,
-      trim: true,
-    },
-    casteComposition: {
-      type: String,
-      trim: true,
-    },
-    influentialLeaders: {
-      type: String,
-      trim: true,
-    },
-    influentialPersons: {
-      type: String,
-      trim: true,
-    },
-    probableJoinees: {
-      type: String,
-      trim: true,
-    },
-    leadersDisgruntledWithShivsena: {
-      type: String,
-      trim: true,
-    },
-    currentMlaPerception: {
-      type: String,
-      trim: true,
-    },
-    shsWin2019: {
-      type: String,
-      trim: true,
-    },
-    lsWin2019: {
-      type: String,
-      trim: true,
-    },
-    reasonForShsWinLoss: {
-      type: String,
-      trim: true,
-    },
-    shsOfficeExistence: {
-      type: String,
-      trim: true,
-    },
-    administrativeIssues: {
-      type: String,
-      trim: true,
-    },
-    suggestionsComplaints: {
-      type: String,
-      trim: true,
-    },
+    // nagarPanchayat: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // wardNo: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // wardName: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // corporatorName: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // corporatorContact: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // runnerUpCorporator: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // runnerUpCorporatorContact: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // taluka: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // zilaParishadGatt: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // panchayatSamitiGann: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // village: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // sarpanch: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // sarpanchContact: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // runnerUpSarpanch: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // runnerUpSarpanchContact: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // boothNumber: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // pollingStationName: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // casteComposition: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // influentialLeadersName: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // influentialLeadersCaste: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // influentialLeadersParty: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // influentialLeadersContact: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // influentialPersonsName: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // influentialPersonsCaste: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // influentialPersonsContact: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // influentialPersonsRoi: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // probableJoineesName: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // probableJoineesCaste: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // probableJoineesParty: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // probableJoineesContact: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // probableJoineesDesc: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // leadersDisgruntledWithShivsenaName: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // leadersDisgruntledWithShivsenaCaste: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // leadersDisgruntledWithShivsenaContact: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // leadersDisgruntledWithShivsenaReason: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // currentMlaPerception: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // shsWin2019: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // lsWin2019: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // reasonForShsWinLoss: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // shsOfficeExistence: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // administrativeIssues: {
+    //   type: String,
+    //   trim: true,
+    // },
+    // suggestionsComplaints: {
+    //   type: String,
+    //   trim: true,
+    // },
   },
   { timestamps: true }
 );
