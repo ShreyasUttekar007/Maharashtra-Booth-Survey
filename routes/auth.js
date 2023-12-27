@@ -3,10 +3,10 @@ const jwt = require("jsonwebtoken");
 const config = require("../config");
 const User = require("../models/User");
 const Survey = require("../models/Survey");
+const { UrbanSurvey, RuralSurvey } = require("../models/Survey");
 
 const router = express.Router();
 
-// User signup route
 router.post("/signup", async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -25,7 +25,6 @@ router.post("/signup", async (req, res, next) => {
   }
 });
 
-// User login route
 router.post("/login", async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -49,7 +48,7 @@ router.post("/login", async (req, res, next) => {
         _id: user._id,
         role: user.role,
       };
-      console.log('userObj::: ', userObj);
+      console.log("userObj::: ", userObj);
       req.session.token = token;
       res.cookie("token", token, {
         maxAge: 36000000,
@@ -64,29 +63,16 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.post("/survey", authenticateToken, async (req, res, next) => {
-  try {
-    const userId = req.user.userId;
-    const surveyData = { ...req.body, userId: userId };
-
-    const survey = new Survey(surveyData);
-    const savedSurvey = await survey.save();
-
-    res.status(201).json({ message: "Survey saved successfully", survey: savedSurvey });
-  } catch (error) {
-    next(error);
-  }
-});
-
-
 function authenticateToken(req, res, next) {
-  const token = req.headers['authorization'];
+  const token = req.headers["authorization"];
 
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized: Token not provided" });
+    return res
+      .status(401)
+      .json({ message: "Unauthorized: Token not provided" });
   }
 
-  jwt.verify(token.replace('Bearer ', ''), config.jwtSecret, (err, user) => {
+  jwt.verify(token.replace("Bearer ", ""), config.jwtSecret, (err, user) => {
     if (err) {
       return res.status(403).json({ message: "Forbidden: Invalid token" });
     }
@@ -95,9 +81,43 @@ function authenticateToken(req, res, next) {
   });
 }
 
+router.post("/survey", authenticateToken, async (req, res, next) => {
+  try {
+    const userId = req.user.userId;
+    const surveyData = { ...req.body, userId: userId };
+
+    let SurveyModel;
+    let survey;
+
+    if (req.body.isUrban) {
+      SurveyModel = UrbanSurvey;
+      survey = new SurveyModel({
+        ...surveyData,
+        urbanData: { ...surveyData },
+        ruralData: undefined,
+      });
+    } else {
+      SurveyModel = RuralSurvey;
+      survey = new SurveyModel({
+        ...surveyData,
+        urbanData: undefined,
+        ruralData: { ...surveyData },
+      });
+    }
+
+    const savedSurvey = await survey.save();
+
+    res
+      .status(201)
+      .json({ message: "Survey saved successfully", survey: savedSurvey });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/get-survey", authenticateToken, async (req, res, next) => {
   try {
-    const surveyData = await Survey.find();
+    const surveyData = await UrbanSurvey.find();
 
     res.status(200).json({ surveys: surveyData });
   } catch (error) {
@@ -108,15 +128,15 @@ router.get("/get-survey", authenticateToken, async (req, res, next) => {
 router.get("/get-survey/:userId", authenticateToken, async (req, res, next) => {
   try {
     const userId = req.params.userId;
-    const surveyData = await Survey.find({ userId: userId });
+
+    const urbanSurveyData = await UrbanSurvey.find({ userId: userId });
+    const ruralSurveyData = await RuralSurvey.find({ userId: userId });
+
+    const surveyData = urbanSurveyData.concat(ruralSurveyData);
 
     res.status(200).json({ surveys: surveyData });
   } catch (error) {
     next(error);
   }
 });
-
-
-
-
 module.exports = router;
