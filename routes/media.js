@@ -5,17 +5,14 @@ const Post = require("../models/Post");
 const Media = require('../models/Media');
 
 router.get('/allfiles', async (req, res) => {
-  console.log(req, "reqqqqqqqqqq")
   try {
     const files = await Media.find();
-    console.log(files, "files")
     if (files.length === 0) {
       return res.json({ message: 'No files found' });
     }
     
     res.json(files);
   } catch (error) {
-    console.log(error, "errrrrrrrr");
     res.status(500).json({ error: 'Internal server error' });
   }
 });

@@ -48,7 +48,6 @@ router.post("/login", async (req, res, next) => {
         _id: user._id,
         role: user.role,
       };
-      console.log("userObj::: ", userObj);
       req.session.token = token;
       res.cookie("token", token, {
         maxAge: 36000000,

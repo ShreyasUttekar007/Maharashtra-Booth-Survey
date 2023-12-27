@@ -6,7 +6,6 @@ const Media = require('../models/Media');
 
 router.post("/create", authMiddleware, async (req, res) => {
   try {
-    console.log(req.body, "reqssss")
     const { title, description, category, files } = req.body;
     const fileReferences = [];
     for (let file of files) {
@@ -18,7 +17,6 @@ router.post("/create", authMiddleware, async (req, res) => {
         fileUrl
       });
       const savedFile = await fileObj.save();
-      console.log(savedFile, "svd")
       fileReferences.push(savedFile._id);
     }
 
@@ -32,7 +30,6 @@ router.post("/create", authMiddleware, async (req, res) => {
 
     res.json(savedPost);
   } catch (error) {
-    console.log(error, "err")
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -122,17 +119,14 @@ router.get('/:id', async (req, res) => {
 });
 
 router.get('/allfiles', async (req, res) => {
-  console.log(req, "reqqqqqqqqqq")
   try {
     const files = await Media.find();
-    console.log(files, "files")
     if (files.length === 0) {
       return res.json({ message: 'No files found' });
     }
     
     res.json(files);
   } catch (error) {
-    console.log(error, "errrrrrrrr");
     res.status(500).json({ error: 'Internal server error' });
   }
 });
