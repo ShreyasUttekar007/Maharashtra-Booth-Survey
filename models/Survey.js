@@ -206,14 +206,6 @@ const surveySchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    shsWin2019: {
-      type: String,
-      trim: true,
-    },
-    lsWin2019: {
-      type: String,
-      trim: true,
-    },
     reasonForShsWinLoss: {
       type: String,
       trim: true,
