@@ -2,7 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const config = require("../config");
 const User = require("../models/User");
-const Survey = require("../models/Survey");
+const Survey = require("../models/Survey2");
 const { UrbanSurvey, RuralSurvey } = require("../models/Survey");
 
 const router = express.Router();
@@ -134,6 +134,71 @@ router.get("/get-survey/:userId", authenticateToken, async (req, res, next) => {
     const surveyData = urbanSurveyData.concat(ruralSurveyData);
 
     res.status(200).json({ surveys: surveyData });
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+router.post("/create-survey", authenticateToken, async (req, res, next) => {
+  try {
+    const userId = req.user.userId;
+    const surveyData = { ...req.body, userId: userId };
+
+    const survey = new Survey(surveyData);
+    const savedSurvey = await survey.save();
+
+    res
+      .status(201)
+      .json({ message: "Survey saved successfully", survey: savedSurvey });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/get-all-surveys", authenticateToken, async (req, res, next) => {
+  try {
+    const surveyData = await Survey.find();
+
+    res.status(200).json({ surveys: surveyData });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/get-surveys/:userId", authenticateToken, async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+
+    const userSurveys = await Survey.find({ userId: userId });
+
+    res.status(200).json({ surveys: userSurveys });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put("/update-survey/:surveyId", authenticateToken, async (req, res, next) => {
+  try {
+    const surveyId = req.params.surveyId;
+    const updatedSurvey = await Survey.findByIdAndUpdate(
+      surveyId,
+      { $set: req.body },
+      { new: true }
+    );
+
+    res.status(200).json({ message: "Survey updated successfully", survey: updatedSurvey });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/delete-survey/:surveyId", authenticateToken, async (req, res, next) => {
+  try {
+    const surveyId = req.params.surveyId;
+    const deletedSurvey = await Survey.findByIdAndDelete(surveyId);
+
+    res.status(200).json({ message: "Survey deleted successfully", survey: deletedSurvey });
   } catch (error) {
     next(error);
   }

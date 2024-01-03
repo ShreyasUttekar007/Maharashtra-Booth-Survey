@@ -109,99 +109,15 @@ const surveySchema = new mongoose.Schema(
       required: [true, "Please select an Address"],
       trim: true,
     },
-    partyName: {
-      type: String,
-      required: [true, "Please select a Party Name"],
-      trim: true,
-    },
     locality: {
       type: String,
       required: [true, "Please select a Locality"],
       trim: true,
     },
-    pramukhName: {
-      type: String,
-      trim: true,
-    },
-    contact: {
-      type: String,
-      trim: true,
-    },
-    photo: {
-      type: String,
-    },
 
     urbanData: urbanSchema,
     ruralData: ruralSchema,
 
-    influentialLeadersName: {
-      type: String,
-      trim: true,
-    },
-    influentialLeadersCaste: {
-      type: String,
-      trim: true,
-    },
-    influentialLeadersParty: {
-      type: String,
-      trim: true,
-    },
-    influentialLeadersContact: {
-      type: String,
-      trim: true,
-    },
-    influentialPersonsName: {
-      type: String,
-      trim: true,
-    },
-    influentialPersonsCaste: {
-      type: String,
-      trim: true,
-    },
-    influentialPersonsContact: {
-      type: String,
-      trim: true,
-    },
-    influentialPersonsRoi: {
-      type: String,
-      trim: true,
-    },
-    probableJoineesName: {
-      type: String,
-      trim: true,
-    },
-    probableJoineesCaste: {
-      type: String,
-      trim: true,
-    },
-    probableJoineesParty: {
-      type: String,
-      trim: true,
-    },
-    probableJoineesContact: {
-      type: String,
-      trim: true,
-    },
-    probableJoineesDesc: {
-      type: String,
-      trim: true,
-    },
-    leadersDisgruntledWithShivsenaName: {
-      type: String,
-      trim: true,
-    },
-    leadersDisgruntledWithShivsenaCaste: {
-      type: String,
-      trim: true,
-    },
-    leadersDisgruntledWithShivsenaContact: {
-      type: String,
-      trim: true,
-    },
-    leadersDisgruntledWithShivsenaReason: {
-      type: String,
-      trim: true,
-    },
     currentMlaPerception: {
       type: String,
       trim: true,
