@@ -62,13 +62,12 @@ const surveySchema2 = new Schema(
       type: String,
       trim: true,
     },
-    influentialLeadersParty: {
-      type: String,
-      trim: true,
-    },
     influentialLeadersContact: {
       type: String,
       trim: true,
+    },
+    influentialLeadersPhoto: {
+      type: String,
     },
     influentialPersonsName: {
       type: String,
@@ -86,15 +85,14 @@ const surveySchema2 = new Schema(
       type: String,
       trim: true,
     },
+    influentialPersonsPhoto: {
+      type: String,
+    },
     probableJoineesName: {
       type: String,
       trim: true,
     },
     probableJoineesCaste: {
-      type: String,
-      trim: true,
-    },
-    probableJoineesParty: {
       type: String,
       trim: true,
     },
@@ -106,21 +104,27 @@ const surveySchema2 = new Schema(
       type: String,
       trim: true,
     },
-    leadersDisgruntledWithShivsenaName: {
+    probableJoineesPhoto: {
+      type: String,
+    },
+    leadersDisgruntledName: {
       type: String,
       trim: true,
     },
-    leadersDisgruntledWithShivsenaCaste: {
+    leadersDisgruntledCaste: {
       type: String,
       trim: true,
     },
-    leadersDisgruntledWithShivsenaContact: {
+    leadersDisgruntledContact: {
       type: String,
       trim: true,
     },
-    leadersDisgruntledWithShivsenaReason: {
+    leadersDisgruntledReason: {
       type: String,
       trim: true,
+    },
+    leadersDisgruntledPhoto: {
+      type: String,
     },
   },
   { timestamps: true }

@@ -116,13 +116,43 @@ router.post("/survey", authenticateToken, async (req, res, next) => {
 
 router.get("/get-survey", authenticateToken, async (req, res, next) => {
   try {
-    const surveyData = await UrbanSurvey.find();
+    const urbanSurveyData = await UrbanSurvey.find();
+    const ruralSurveyData = await RuralSurvey.find();
+
+    const surveyData = urbanSurveyData.concat(ruralSurveyData);
 
     res.status(200).json({ surveys: surveyData });
   } catch (error) {
     next(error);
   }
 });
+
+router.get(
+  "/get-survey-by-booth/:boothName",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const userId = req.user.userId;
+      const boothName = req.params.boothName;
+
+      const urbanSurveyData = await UrbanSurvey.find({
+        userId: userId,
+        boothName: boothName,
+      });
+
+      const ruralSurveyData = await RuralSurvey.find({
+        userId: userId,
+        boothName: boothName,
+      });
+
+      const surveyData = urbanSurveyData.concat(ruralSurveyData);
+
+      res.status(200).json({ surveys: surveyData });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 router.get("/get-survey/:userId", authenticateToken, async (req, res, next) => {
   try {
@@ -138,7 +168,6 @@ router.get("/get-survey/:userId", authenticateToken, async (req, res, next) => {
     next(error);
   }
 });
-
 
 router.post("/create-survey", authenticateToken, async (req, res, next) => {
   try {
@@ -166,41 +195,79 @@ router.get("/get-all-surveys", authenticateToken, async (req, res, next) => {
   }
 });
 
-router.get("/get-surveys/:userId", authenticateToken, async (req, res, next) => {
-  try {
-    const userId = req.params.userId;
+router.get(
+  "/get-surveys/:userId",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const userId = req.params.userId;
 
-    const userSurveys = await Survey.find({ userId: userId });
+      const userSurveys = await Survey.find({ userId: userId });
 
-    res.status(200).json({ surveys: userSurveys });
-  } catch (error) {
-    next(error);
+      res.status(200).json({ surveys: userSurveys });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.put("/update-survey/:surveyId", authenticateToken, async (req, res, next) => {
-  try {
-    const surveyId = req.params.surveyId;
-    const updatedSurvey = await Survey.findByIdAndUpdate(
-      surveyId,
-      { $set: req.body },
-      { new: true }
-    );
+router.get(
+  "/get-surveys-by-booth/:boothName",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const userId = req.user.userId;
+      const boothName = req.params.boothName;
 
-    res.status(200).json({ message: "Survey updated successfully", survey: updatedSurvey });
-  } catch (error) {
-    next(error);
+      const surveyData = await Survey.find({
+        userId: userId,
+        boothName: boothName,
+      });
+
+      res.status(200).json({ surveys: surveyData });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
-router.delete("/delete-survey/:surveyId", authenticateToken, async (req, res, next) => {
-  try {
-    const surveyId = req.params.surveyId;
-    const deletedSurvey = await Survey.findByIdAndDelete(surveyId);
+router.put(
+  "/update-survey/:surveyId",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const surveyId = req.params.surveyId;
+      const updatedSurvey = await Survey.findByIdAndUpdate(
+        surveyId,
+        { $set: req.body },
+        { new: true }
+      );
 
-    res.status(200).json({ message: "Survey deleted successfully", survey: deletedSurvey });
-  } catch (error) {
-    next(error);
+      res.status(200).json({
+        message: "Survey updated successfully",
+        survey: updatedSurvey,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
+
+router.delete(
+  "/delete-survey/:surveyId",
+  authenticateToken,
+  async (req, res, next) => {
+    try {
+      const surveyId = req.params.surveyId;
+      const deletedSurvey = await Survey.findByIdAndDelete(surveyId);
+
+      res.status(200).json({
+        message: "Survey deleted successfully",
+        survey: deletedSurvey,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 module.exports = router;
